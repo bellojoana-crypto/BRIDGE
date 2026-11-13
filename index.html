@@ -1,331 +1,522 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BRIDGE 0.3</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRIDGE 0.4</title>
+
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f1f7f9;color:#183d48;margin:0;padding:15px}
-header{text-align:center;padding:20px}
+body{
+ margin:0;
+ background:#eef6f8;
+ color:#173b47;
+ font:16px Arial,sans-serif;
+ padding:16px
+}
+header{text-align:center;padding:18px}
 h1{font-size:44px;color:#087e91;margin:0}
-.card{background:white;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #00000010}
-button{background:#087e91;color:white;border:0;border-radius:10px;padding:12px;margin:4px;font-size:14px}
-button.secondary{background:#637e87}
-.metric{display:inline-block;background:#e9f5f7;padding:12px;border-radius:10px;margin:4px}
-.pattern{border-left:4px solid #087e91;padding:12px;margin:12px 0;background:#f5fafb;border-radius:6px}
-.bar{background:#dbe9ec;border-radius:10px;height:12px;overflow:hidden;margin:8px 0}
-.fill{background:#087e91;height:100%;transition:width .3s}
-small{color:#637e87}
-.notice{background:#fff4db;padding:12px;border-radius:10px;font-size:13px}
-.event{border-bottom:1px solid #e1ecef;padding:10px 0;font-size:14px}
+.card{
+ background:white;
+ border-radius:15px;
+ padding:17px;
+ margin:14px 0;
+ box-shadow:0 2px 8px #0001
+}
+button{
+ border:0;
+ background:#087e91;
+ color:white;
+ border-radius:9px;
+ padding:12px;
+ margin:4px;
+ font-size:15px
+}
+button.secondary{background:#657d87}
+.muted,small{color:#627c85}
+.item{
+ padding:12px 0;
+ border-bottom:1px solid #e2edef
+}
+.note{
+ background:#fff3da;
+ padding:12px;
+ border-radius:10px
+}
+.bar{
+ height:9px;
+ border-radius:9px;
+ background:#e0e9ed;
+ overflow:hidden;
+ margin:8px 0
+}
+.fill{
+ height:100%;
+ background:#087e91
+}
+h2{font-size:19px}
+#history{max-height:360px;overflow:auto}
 </style>
 </head>
+
 <body>
 
 <header>
 <h1>BRIDGE</h1>
 <p>Every behavior may hold a connection.</p>
-<small>Aprendizagem individual — Versão 0.3</small>
+<small>Versão 0.4 — Sequências e associações</small>
 </header>
 
-<div class="card">
-<h2>Perfil individual</h2>
-<p>Perfil experimental: Criança A</p>
-<small>Simulação com dados fictícios.</small>
-</div>
+<section class="card">
+<h2>Perfil individual fictício</h2>
+<p>Criança A — demonstração</p>
+<p class="muted">
+A simulação gera episódios com acontecimentos
+antes, durante e depois.
 
-<div class="card">
-<h2>Observação automática</h2>
-<p>Estado: <b id="status">Em pausa</b></p>
-<button onclick="start()">Iniciar</button>
-<button class="secondary" onclick="pause()">Pausar</button>
-<button class="secondary" onclick="reset()">Reiniciar aprendizagem</button>
-<p>Observações: <b id="count">0</b></p>
-</div>
+A análise procura relações estatísticas
+sem atribuir emoções ou intenções.
+</p>
+</section>
 
-<div class="card">
-<h2>Sinais fisiológicos simulados</h2>
-<div class="metric">❤️ <span id="heart">--</span> bpm</div>
-<div class="metric">Movimento: <span id="motion">--</span></div>
-<p><small>Não existe ligação a sensores reais.</small></p>
-</div>
+<section class="card">
+<h2>Observação</h2>
 
-<div class="card">
-<h2>Última observação</h2>
-<div id="latest">A aguardar observações...</div>
-</div>
+<p>
+Estado: <strong id="status">Em pausa</strong>
+</p>
 
-<div class="card">
-<h2>Associações descobertas</h2>
-<p><small>O sistema compara a frequência de acontecimentos em diferentes contextos.</small></p>
-<div id="patterns">Ainda não existem dados suficientes.</div>
-</div>
+<p>
+Episódios: <strong id="count">0</strong>
+</p>
 
-<div class="card">
-<h2>Evolução da aprendizagem</h2>
-<div id="learning">A aguardar observações.</div>
-</div>
+<button id="start">Iniciar</button>
+<button id="pause" class="secondary">Pausar</button>
+<button id="reset" class="secondary">Reiniciar</button>
+</section>
 
-<div class="card">
-<h2>Histórico</h2>
-<div id="history">Ainda sem observações.</div>
+<section class="card">
+<h2>Último episódio</h2>
+<div id="latest">
+À espera de observações.
 </div>
+</section>
 
-<div class="card">
-<div class="notice">
-BRIDGE é um protótipo experimental.
-As associações estatísticas não demonstram
-intenções comunicativas nem estados emocionais.
-Não deve ser utilizado para decisões clínicas
-ou de segurança.
+<section class="card">
+<h2>Associações entre sequências</h2>
+
+<p class="muted">
+Comparação da frequência de um acontecimento
+posterior quando um comportamento ocorre,
+face a quando não ocorre, no mesmo contexto.
+</p>
+
+<div id="patterns">
+Ainda não existem dados suficientes.
 </div>
+</section>
+
+<section class="card">
+<h2>Evolução e limites</h2>
+<div id="learning">
+À espera de observações.
 </div>
+</section>
+
+<section class="card">
+<h2>Histórico recente</h2>
+<div id="history">
+Sem episódios.
+</div>
+</section>
+
+<section class="card note">
+<strong>Aviso:</strong>
+
+Todos os dados são fictícios.
+
+As percentagens mostram frequências
+na simulação, não a probabilidade
+de uma intenção comunicativa.
+
+Uma associação não prova causalidade
+nem permite tomar decisões clínicas.
+</section>
 
 <script>
-const $=id=>document.getElementById(id);
+'use strict';
 
-const contexts=[
-"Brincadeira interrompida",
-"Refeição",
-"Interação social",
-"Atividade livre"
+const $ = id => document.getElementById(id);
+
+const before = [
+ "Atividade interrompida",
+ "Refeição iniciada",
+ "Adulto aproxima-se",
+ "Atividade livre"
 ];
 
-const behaviors=[
-"Vocalização breve",
-"Afasta um objeto",
-"Movimento repetitivo dos braços",
-"Estende a mão",
-"Movimento da cabeça"
+const during = [
+ "Estende a mão",
+ "Afasta objeto",
+ "Vocalização breve",
+ "Movimentos repetitivos"
 ];
 
-const outcomes=[
-"Atividade retomada",
-"Objeto retirado",
-"Adulto aproxima-se",
-"Atividade continua",
-"Sem alteração observável"
+const after = [
+ "Atividade retomada",
+ "Objeto afastado",
+ "Adulto responde",
+ "Sem mudança observável"
 ];
 
-let records=[];
-let timer=null;
+const KEY = "bridge04_demo";
 
-function random(n){
- return Math.floor(Math.random()*n);
-}
+let records = [];
+let timer = null;
 
-function generate(){
- const context=random(contexts.length);
+const pick = n => Math.floor(Math.random()*n);
 
- let behavior=random(behaviors.length);
- let outcome=random(outcomes.length);
+function episode(){
 
- // Tendências fictícias com variação e exceções.
- // O algoritmo de análise não conhece estas regras.
- if(context===0){
-  if(Math.random()<0.72)behavior=3;
-  if(Math.random()<0.68)outcome=0;
- }
- if(context===1){
-  if(Math.random()<0.72)behavior=1;
-  if(Math.random()<0.68)outcome=1;
- }
- if(context===2){
-  if(Math.random()<0.65)behavior=0;
-  if(Math.random()<0.65)outcome=2;
- }
+ const c = pick(4);
 
- return {
-  context,
-  behavior,
-  outcome,
-  heart:80+random(45),
-  motion:["Baixo","Moderado","Elevado"][random(3)]
- };
+ let b = pick(4);
+ let a = pick(4);
+
+ // Tendências fictícias com exceções.
+
+ if(c===0 && Math.random()<0.7)
+  b=0;
+
+ if(c===1 && Math.random()<0.7)
+  b=1;
+
+ if(c===2 && Math.random()<0.65)
+  b=2;
+
+ if(c===0 && b===0 && Math.random()<0.8)
+  a=0;
+
+ if(c===1 && b===1 && Math.random()<0.8)
+  a=1;
+
+ if(c===2 && b===2 && Math.random()<0.75)
+  a=2;
+
+ const hr = 78+pick(49);
+
+ const movement = [
+  "Baixo",
+  "Moderado",
+  "Elevado"
+ ][pick(3)];
+
+ return {c,b,a,hr,movement};
 }
 
 function observe(){
- const r=generate();
- records.push(r);
 
- $("count").textContent=records.length;
- $("heart").textContent=r.heart;
- $("motion").textContent=r.motion;
+ records.push(episode());
 
- $("latest").textContent=
- "Antes: "+contexts[r.context]+
- " | Comportamento: "+behaviors[r.behavior]+
- " | Depois: "+outcomes[r.outcome];
+ if(records.length>2000)
+  records.shift();
 
- analyse();
- renderHistory();
+ render();
  save();
 }
 
+function associationStats(c,b,a){
+
+ const same = records.filter(
+  r=>r.c===c
+ );
+
+ const yes = same.filter(
+  r=>r.b===b
+ );
+
+ const no = same.filter(
+  r=>r.b!==b
+ );
+
+ if(yes.length<6 || no.length<6)
+  return null;
+
+ const yesHits = yes.filter(
+  r=>r.a===a
+ ).length;
+
+ const noHits = no.filter(
+  r=>r.a===a
+ ).length;
+
+ const p = yesHits/yes.length;
+ const q = noHits/no.length;
+
+ const d = p-q;
+
+ if(yesHits<4 || d<0.20)
+  return null;
+
+ return {
+  c,b,a,
+  yes:yes.length,
+  no:no.length,
+  yesHits,
+  noHits,
+  p,q,d
+ };
+}
+
 function analyse(){
- const results=[];
 
- for(let c=0;c<contexts.length;c++){
-  const subset=records.filter(r=>r.context===c);
-  if(subset.length<5)continue;
+ const found=[];
 
-  for(let b=0;b<behaviors.length;b++){
-   const matches=subset.filter(r=>r.behavior===b).length;
-   const others=records.filter(r=>r.context!==c);
-   if(others.length<5)continue;
+ for(let c=0;c<4;c++){
 
-   const otherMatches=others.filter(r=>r.behavior===b).length;
+  for(let b=0;b<4;b++){
 
-   const rate=matches/subset.length;
-   const baseline=otherMatches/others.length;
-   const difference=rate-baseline;
+   for(let a=0;a<4;a++){
 
-   if(matches>=3 && difference>=0.15){
-    results.push({
-     context:c,
-     behavior:b,
-     matches,
-     total:subset.length,
-     rate,
-     baseline,
-     difference
-    });
+    const s=associationStats(c,b,a);
+
+    if(s)
+     found.push(s);
    }
   }
  }
 
- results.sort((a,b)=>b.difference-a.difference);
+ found.sort((x,y)=>y.d-x.d);
 
- $("patterns").innerHTML="";
- $("learning").innerHTML="";
+ return found;
+}
 
- if(results.length===0){
-  $("patterns").textContent=
-   "A recolher dados para comparar contextos.";
-  $("learning").textContent=
-   "Ainda não existem associações suficientes.";
-  return;
+function render(){
+
+ $('count').textContent=records.length;
+
+ const r=records[records.length-1];
+
+ if(r){
+
+  $('latest').innerHTML="";
+
+  const information=[
+   ["Antes",before[r.c]],
+   ["Durante",during[r.b]],
+   ["Depois",after[r.a]],
+   [
+    "Sinais simulados",
+    r.hr+" bpm — movimento "+
+    r.movement.toLowerCase()
+   ]
+  ];
+
+  information.forEach(([label,value])=>{
+
+   const p=document.createElement("p");
+
+   const strong=document.createElement("strong");
+
+   strong.textContent=label+": ";
+
+   p.append(
+    strong,
+    document.createTextNode(value)
+   );
+
+   $('latest').append(p);
+  });
+
+ }else{
+
+  $('latest').textContent=
+   "À espera de observações.";
  }
 
- results.slice(0,5).forEach(r=>{
-  const box=document.createElement("div");
-  box.className="pattern";
+ const found=analyse();
 
-  const title=document.createElement("b");
+ $('patterns').innerHTML="";
+
+ if(found.length===0){
+
+  $('patterns').textContent=
+   "Ainda não há comparações suficientes. "+
+   "Deixa a simulação decorrer cerca de "+
+   "2 minutos.";
+ }
+
+ found.slice(0,6).forEach(s=>{
+
+  const div=document.createElement("div");
+
+  div.className="item";
+
+  const title=document.createElement("strong");
+
   title.textContent=
-   contexts[r.context]+" → "+behaviors[r.behavior];
+   before[s.c]+" → "+
+   during[s.b]+" → "+
+   after[s.a];
 
-  const description=document.createElement("p");
-  description.textContent=
-   "Observado em "+r.matches+" de "+
-   r.total+" situações deste contexto.";
+  div.append(title);
 
-  const comparison=document.createElement("small");
-  comparison.textContent=
-   "Frequência neste contexto: "+
-   Math.round(r.rate*100)+"%. "+
-   "Noutros contextos: "+
-   Math.round(r.baseline*100)+"%.";
+  const p=document.createElement("p");
+
+  p.textContent=
+   "Com o comportamento: "+
+   s.yesHits+"/"+s.yes+
+   " ("+Math.round(s.p*100)+"%). "+
+   "Sem esse comportamento: "+
+   s.noHits+"/"+s.no+
+   " ("+Math.round(s.q*100)+"%).";
+
+  div.append(p);
+
+  const small=document.createElement("small");
+
+  small.textContent=
+   "Diferença observada: "+
+   Math.round(s.d*100)+
+   " pontos percentuais. "+
+   "Associação a investigar, "+
+   "não uma interpretação.";
+
+  div.append(small);
 
   const bar=document.createElement("div");
+
   bar.className="bar";
 
   const fill=document.createElement("div");
+
   fill.className="fill";
-  fill.style.width=Math.round(r.rate*100)+"%";
-  bar.appendChild(fill);
 
-  box.append(title,description,comparison,bar);
-  $("patterns").appendChild(box);
+  fill.style.width=
+   Math.round(s.p*100)+"%";
+
+  bar.append(fill);
+
+  div.append(bar);
+
+  $('patterns').append(div);
  });
 
- const p=document.createElement("p");
- p.textContent=
-  "Associações atualmente identificadas: "+
-  results.length+". Os valores podem aumentar, "+
-  "diminuir ou deixar de cumprir os critérios "+
-  "quando chegam novas observações.";
+ $('learning').textContent=
+  "Episódios analisados: "+
+  records.length+
+  ". Associações que cumprem "+
+  "os critérios atuais: "+
+  found.length+
+  ". Os resultados podem surgir, "+
+  "mudar ou desaparecer à medida "+
+  "que entram novos episódios. "+
+  "O sistema não confirma "+
+  "intenções comunicativas.";
 
- $("learning").appendChild(p);
+ $('history').innerHTML="";
 
- const note=document.createElement("small");
- note.textContent=
-  "As barras representam frequências observadas, "+
-  "não probabilidades de intenção comunicativa.";
- $("learning").appendChild(note);
-}
+ if(!r){
 
-function renderHistory(){
- $("history").innerHTML="";
+  $('history').textContent="Sem episódios.";
+  return;
+ }
 
- records.slice(-15).reverse().forEach((r,i)=>{
+ records.slice(-12).reverse().forEach((x,i)=>{
+
   const div=document.createElement("div");
-  div.className="event";
+
+  div.className="item";
+
   div.textContent=
-   contexts[r.context]+" | "+
-   behaviors[r.behavior]+" | "+
-   outcomes[r.outcome];
-  $("history").appendChild(div);
+   "#"+(records.length-i)+
+   " — "+before[x.c]+
+   " | "+during[x.b]+
+   " | "+after[x.a];
+
+  $('history').append(div);
  });
-}
-
-function start(){
- if(timer!==null)return;
- $("status").textContent="A observar";
- observe();
- timer=setInterval(observe,1500);
-}
-
-function pause(){
- clearInterval(timer);
- timer=null;
- $("status").textContent="Em pausa";
 }
 
 function save(){
+
  try{
+
   localStorage.setItem(
-   "bridge03",
+   KEY,
    JSON.stringify(records)
   );
+
  }catch(e){}
 }
 
-function reset(){
- pause();
- if(!confirm("Apagar a aprendizagem desta simulação?"))return;
- records=[];
- localStorage.removeItem("bridge03");
- $("count").textContent="0";
- $("heart").textContent="--";
- $("motion").textContent="--";
- $("latest").textContent="A aguardar observações...";
- $("history").textContent="Ainda sem observações.";
- analyse();
-}
+function pause(){
 
-function load(){
- try{
-  const saved=JSON.parse(
-   localStorage.getItem("bridge03")
-  );
-  if(Array.isArray(saved)){
-   records=saved.filter(r=>
-    Number.isInteger(r.context)&&r.context>=0&&r.context<contexts.length&&
-    Number.isInteger(r.behavior)&&r.behavior>=0&&r.behavior<behaviors.length&&
-    Number.isInteger(r.outcome)&&r.outcome>=0&&r.outcome<outcomes.length
-   ).slice(-5000);
-  }
- }catch(e){
-  records=[];
+ if(timer!==null){
+
+  clearInterval(timer);
+  timer=null;
  }
- $("count").textContent=records.length;
- analyse();
- renderHistory();
+
+ $('status').textContent="Em pausa";
 }
 
-load();
+$('start').onclick=()=>{
+
+ if(timer!==null)
+  return;
+
+ $('status').textContent="A observar";
+
+ observe();
+
+ timer=setInterval(observe,1200);
+};
+
+$('pause').onclick=pause;
+
+$('reset').onclick=()=>{
+
+ pause();
+
+ if(!confirm(
+  "Apagar os dados fictícios desta simulação?"
+ ))
+  return;
+
+ records=[];
+
+ try{
+  localStorage.removeItem(KEY);
+ }catch(e){}
+
+ render();
+};
+
+try{
+
+ const old=JSON.parse(
+  localStorage.getItem(KEY)
+ );
+
+ if(Array.isArray(old)){
+
+  records=old.filter(r=>
+   r &&
+   [r.c,r.b,r.a].every(x=>
+    Number.isInteger(x) &&
+    x>=0 &&
+    x<4
+   ) &&
+   Number.isFinite(r.hr) &&
+   typeof r.movement==="string"
+  ).slice(-2000);
+ }
+
+}catch(e){}
+
+render();
+
 </script>
 </body>
 </html>
