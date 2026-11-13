@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRIDGE</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f8fa;
+  margin: 0;
+  padding: 20px;
+  color: #183b4a;
+}
+
+header {
+  text-align: center;
+  padding: 25px 0;
+}
+
+h1 {
+  color: #087e91;
+  font-size: 42px;
+  margin: 0;
+}
+
+.subtitle {
+  color: #647982;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+button {
+  background: #087e91;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #aabdc3;
+}
+
+.status {
+  color: #087e91;
+  font-weight: bold;
+}
+
+.event {
+  padding: 12px;
+  border-bottom: 1px solid #e5eeee;
+}
+
+small {
+  color: #647982;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>BRIDGE</h1>
+  <p class="subtitle">Every behavior may hold a connection.</p>
+  <small>Protótipo experimental — versão 0.1</small>
+</header>
+
+<div class="card">
+  <h2>Observação contínua</h2>
+
+  <p>Estado: <span id="status" class="status">Em pausa</span></p>
+
+  <button id="start">Iniciar observação</button>
+  <button id="pause">Pausar</button>
+  <button id="reset">Reiniciar</button>
+
+  <p>Observações: <strong id="counter">0</strong></p>
+</div>
+
+<div class="card">
+  <h2>Última observação</h2>
+  <p id="observation">Ainda não existem observações.</p>
+</div>
+
+<div class="card">
+  <h2>Padrões identificados</h2>
+  <div id="patterns">
+    A aguardar dados...
+  </div>
+</div>
+
+<div class="card">
+  <h2>Possíveis sinais de comunicação</h2>
+  <div id="communication">
+    Ainda não existem hipóteses.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Histórico de observações</h2>
+  <div id="history"></div>
+</div>
+
+<script>
+const observations = [
+  {
+    context: "Interrupção de brincadeira",
+    behavior: "Vocalização curta e aproximação das mãos ao brinquedo",
+    signal: "A",
+    hypothesis: "Poderá querer continuar a brincar."
+  },
+  {
+    context: "Refeição",
+    behavior: "Afasta o prato e emite um som grave",
+    signal: "B",
+    hypothesis: "Poderá querer interromper a refeição."
+  },
+  {
+    context: "Atividade livre",
+    behavior: "Movimentos repetitivos dos braços",
+    signal: "C",
+    hypothesis: "Significado ainda desconhecido."
+  },
+  {
+    context: "Interrupção de brincadeira",
+    behavior: "Vocalização curta e aproximação das mãos ao brinquedo",
+    signal: "A",
+    hypothesis: "Poderá querer continuar a brincar."
+  },
+  {
+    context: "Refeição",
+    behavior: "Afasta o prato e emite um som grave",
+    signal: "B",
+    hypothesis: "Poderá querer interromper a refeição."
+  },
+  {
+    context: "Atividade livre",
+    behavior: "Movimentos repetitivos dos braços",
+    signal: "C",
+    hypothesis: "Significado ainda desconhecido."
+  }
+];
+
+let timer = null;
+let count = 0;
+let patterns = {};
+
+const statusElement = document.getElementById("status");
+const counterElement = document.getElementById("counter");
+const observationElement = document.getElementById("observation");
+const patternsElement = document.getElementById("patterns");
+const communicationElement = document.getElementById("communication");
+const historyElement = document.getElementById("history");
+
+function observe() {
+  const item = observations[count % observations.length];
+
+  count++;
+
+  counterElement.textContent = count;
+
+  observationElement.textContent =
+    item.context + ": " + item.behavior;
+
+  patterns[item.signal] =
+    (patterns[item.signal] || 0) + 1;
+
+  const entry = document.createElement("div");
+  entry.className = "event";
+  entry.textContent =
+    count + ". " + item.context + " — " + item.behavior;
+
+  historyElement.prepend(entry);
+
+  updatePatterns();
+}
+
+function updatePatterns() {
+  patternsElement.innerHTML = "";
+  communicationElement.innerHTML = "";
+
+  let found = false;
+
+  Object.keys(patterns).forEach(signal => {
+    const total = patterns[signal];
+
+    if (total >= 2) {
+      found = true;
+
+      const item = observations.find(
+        observation => observation.signal === signal
+      );
+
+      const pattern = document.createElement("p");
+      pattern.textContent =
+        "Padrão " + signal +
+        ": identificado " + total + " vezes.";
+
+      patternsElement.appendChild(pattern);
+
+      const hypothesis = document.createElement("p");
+      hypothesis.textContent =
+        "Hipótese: " + item.hypothesis;
+
+      communicationElement.appendChild(hypothesis);
+    }
+  });
+
+  if (!found) {
+    patternsElement.textContent =
+      "Ainda não foram identificados padrões repetidos.";
+
+    communicationElement.textContent =
+      "A aguardar mais observações.";
+  }
+}
+
+document.getElementById("start").onclick = function() {
+  if (timer !== null) return;
+
+  statusElement.textContent = "A observar";
+
+  observe();
+
+  timer = setInterval(observe, 2000);
+};
+
+document.getElementById("pause").onclick = function() {
+  clearInterval(timer);
+  timer = null;
+
+  statusElement.textContent = "Em pausa";
+};
+
+document.getElementById("reset").onclick = function() {
+  clearInterval(timer);
+  timer = null;
+
+  count = 0;
+  patterns = {};
+
+  statusElement.textContent = "Em pausa";
+  counterElement.textContent = "0";
+
+  observationElement.textContent =
+    "Ainda não existem observações.";
+
+  patternsElement.textContent =
+    "A aguardar dados...";
+
+  communicationElement.textContent =
+    "Ainda não existem hipóteses.";
+
+  historyElement.innerHTML = "";
+};
+</script>
+
+</body>
+</html>
