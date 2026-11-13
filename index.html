@@ -3,268 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BRIDGE</title>
-
+<title>BRIDGE 0.2</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f3f8fa;
-  margin: 0;
-  padding: 20px;
-  color: #183b4a;
+*{box-sizing:border-box}
+body{
+ font-family:Arial,sans-serif;
+ background:#f2f8fa;
+ color:#173b48;
+ margin:0;
+ padding:16px;
 }
-
-header {
-  text-align: center;
-  padding: 25px 0;
+header{text-align:center;padding:22px}
+h1{color:#087e91;font-size:44px;margin:0}
+.card{
+ background:white;
+ border-radius:16px;
+ padding:18px;
+ margin:15px 0;
+ box-shadow:0 2px 8px #00000010;
 }
-
-h1 {
-  color: #087e91;
-  font-size: 42px;
-  margin: 0;
+button{
+ background:#087e91;
+ color:white;
+ border:0;
+ border-radius:10px;
+ padding:13px;
+ margin:4px;
+ font-size:15px;
 }
-
-.subtitle {
-  color: #647982;
+button:active{background:#065665}
+.status{color:#087e91;font-weight:bold}
+.event{
+ padding:10px;
+ border-bottom:1px solid #e1ecef;
+ font-size:14px;
 }
-
-.card {
-  background: white;
-  padding: 20px;
-  margin-bottom: 18px;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px #00000010;
+small{color:#657c85}
+.metric{
+ display:inline-block;
+ background:#e9f5f7;
+ padding:12px;
+ border-radius:10px;
+ margin:4px;
 }
-
-button {
-  background: #087e91;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 14px;
-  margin: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background: #aabdc3;
-}
-
-.status {
-  color: #087e91;
-  font-weight: bold;
-}
-
-.event {
-  padding: 12px;
-  border-bottom: 1px solid #e5eeee;
-}
-
-small {
-  color: #647982;
+.notice{
+ background:#fff5df;
+ padding:12px;
+ border-radius:10px;
+ font-size:13px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>BRIDGE</h1>
-  <p class="subtitle">Every behavior may hold a connection.</p>
-  <small>Protótipo experimental — versão 0.1</small>
+<h1>BRIDGE</h1>
+<p>Every behavior may hold a connection.</p>
+<small>Aprendizagem individual — Versão 0.2</small>
 </header>
 
 <div class="card">
-  <h2>Observação contínua</h2>
-
-  <p>Estado: <span id="status" class="status">Em pausa</span></p>
-
-  <button id="start">Iniciar observação</button>
-  <button id="pause">Pausar</button>
-  <button id="reset">Reiniciar</button>
-
-  <p>Observações: <strong id="counter">0</strong></p>
+<h2>Perfil individual</h2>
+<p>Perfil de demonstração: Criança A</p>
+<small>Todos os dados são fictícios.</small>
 </div>
 
 <div class="card">
-  <h2>Última observação</h2>
-  <p id="observation">Ainda não existem observações.</p>
+<h2>Observação automática</h2>
+<p>Estado:
+<span id="status" class="status">Em pausa</span>
+</p>
+<button id="start">Iniciar</button>
+<button id="pause">Pausar</button>
+<button id="reset">Reiniciar</button>
+<p>Observações: <b id="count">0</b></p>
 </div>
 
 <div class="card">
-  <h2>Padrões identificados</h2>
-  <div id="patterns">
-    A aguardar dados...
-  </div>
+<h2>Sinais fisiológicos</h2>
+<div class="metric">
+❤️ <span id="heart">--</span> bpm
+</div>
+<div class="metric">
+Movimento: <span id="motion">--</span>
+</div>
+<p><small>Valores simulados, não medidos.</small></p>
 </div>
 
 <div class="card">
-  <h2>Possíveis sinais de comunicação</h2>
-  <div id="communication">
-    Ainda não existem hipóteses.
-  </div>
+<h2>Última observação</h2>
+<p id="latest">A aguardar observações...</p>
 </div>
 
 <div class="card">
-  <h2>Histórico de observações</h2>
-  <div id="history"></div>
+<h2>Padrões identificados</h2>
+<div id="patterns">Ainda sem dados.</div>
+</div>
+
+<div class="card">
+<h2>Possíveis sinais comunicativos</h2>
+<div id="communication">
+A aguardar identificação de padrões.
+</div>
+</div>
+
+<div class="card">
+<h2>Histórico</h2>
+<div id="history"></div>
+</div>
+
+<div class="card">
+<div class="notice">
+Este protótipo não interpreta emoções nem
+determina intenções comunicativas.
+
+As associações identificadas são hipóteses
+experimentais que exigem validação.
+</div>
 </div>
 
 <script>
-const observations = [
-  {
-    context: "Interrupção de brincadeira",
-    behavior: "Vocalização curta e aproximação das mãos ao brinquedo",
-    signal: "A",
-    hypothesis: "Poderá querer continuar a brincar."
-  },
-  {
-    context: "Refeição",
-    behavior: "Afasta o prato e emite um som grave",
-    signal: "B",
-    hypothesis: "Poderá querer interromper a refeição."
-  },
-  {
-    context: "Atividade livre",
-    behavior: "Movimentos repetitivos dos braços",
-    signal: "C",
-    hypothesis: "Significado ainda desconhecido."
-  },
-  {
-    context: "Interrupção de brincadeira",
-    behavior: "Vocalização curta e aproximação das mãos ao brinquedo",
-    signal: "A",
-    hypothesis: "Poderá querer continuar a brincar."
-  },
-  {
-    context: "Refeição",
-    behavior: "Afasta o prato e emite um som grave",
-    signal: "B",
-    hypothesis: "Poderá querer interromper a refeição."
-  },
-  {
-    context: "Atividade livre",
-    behavior: "Movimentos repetitivos dos braços",
-    signal: "C",
-    hypothesis: "Significado ainda desconhecido."
-  }
+const events=[
+{
+context:"Interrupção de brincadeira",
+before:"Adulto interrompe atividade",
+behavior:"Vocalização curta e mãos dirigidas ao brinquedo",
+after:"Criança aproxima-se do brinquedo",
+heart:112,
+motion:"Elevado",
+signal:"A",
+hypothesis:"Possível pedido para continuar a atividade"
+},
+{
+context:"Refeição",
+before:"Prato colocado à frente",
+behavior:"Afasta o prato e emite som grave",
+after:"Mantém o prato afastado",
+heart:94,
+motion:"Moderado",
+signal:"B",
+hypothesis:"Possível recusa ou pedido de pausa"
+},
+{
+context:"Atividade livre",
+before:"Ambiente sem alterações observadas",
+behavior:"Movimentos repetitivos dos braços",
+after:"Continua a atividade",
+heart:106,
+motion:"Elevado",
+signal:"C",
+hypothesis:"Função ainda desconhecida"
+},
+{
+context:"Interação social",
+before:"Adulto aproxima-se",
+behavior:"Vocalização breve e movimento da cabeça",
+after:"Olha na direção do adulto",
+heart:101,
+motion:"Moderado",
+signal:"D",
+hypothesis:"Possível tentativa de interação"
+}
 ];
 
-let timer = null;
-let count = 0;
-let patterns = {};
+let count=0;
+let timer=null;
+let patterns={};
 
-const statusElement = document.getElementById("status");
-const counterElement = document.getElementById("counter");
-const observationElement = document.getElementById("observation");
-const patternsElement = document.getElementById("patterns");
-const communicationElement = document.getElementById("communication");
-const historyElement = document.getElementById("history");
+const $=id=>document.getElementById(id);
 
-function observe() {
-  const item = observations[count % observations.length];
-
-  count++;
-
-  counterElement.textContent = count;
-
-  observationElement.textContent =
-    item.context + ": " + item.behavior;
-
-  patterns[item.signal] =
-    (patterns[item.signal] || 0) + 1;
-
-  const entry = document.createElement("div");
-  entry.className = "event";
-  entry.textContent =
-    count + ". " + item.context + " — " + item.behavior;
-
-  historyElement.prepend(entry);
-
-  updatePatterns();
+function save(){
+ try{
+ localStorage.setItem("bridge02",JSON.stringify({
+ count,patterns
+ }));
+ }catch(e){}
 }
 
-function updatePatterns() {
-  patternsElement.innerHTML = "";
-  communicationElement.innerHTML = "";
-
-  let found = false;
-
-  Object.keys(patterns).forEach(signal => {
-    const total = patterns[signal];
-
-    if (total >= 2) {
-      found = true;
-
-      const item = observations.find(
-        observation => observation.signal === signal
-      );
-
-      const pattern = document.createElement("p");
-      pattern.textContent =
-        "Padrão " + signal +
-        ": identificado " + total + " vezes.";
-
-      patternsElement.appendChild(pattern);
-
-      const hypothesis = document.createElement("p");
-      hypothesis.textContent =
-        "Hipótese: " + item.hypothesis;
-
-      communicationElement.appendChild(hypothesis);
-    }
-  });
-
-  if (!found) {
-    patternsElement.textContent =
-      "Ainda não foram identificados padrões repetidos.";
-
-    communicationElement.textContent =
-      "A aguardar mais observações.";
-  }
+function load(){
+ try{
+ const data=JSON.parse(
+ localStorage.getItem("bridge02")
+ );
+ if(data && Number.isInteger(data.count)
+ && data.count>=0 && data.count<=100000){
+ count=data.count;
+ patterns=data.patterns||{};
+ $("count").textContent=count;
+ updatePatterns();
+ }
+ }catch(e){}
 }
 
-document.getElementById("start").onclick = function() {
-  if (timer !== null) return;
+function observe(){
+ const item=events[count%events.length];
+ count++;
 
-  statusElement.textContent = "A observar";
+ patterns[item.signal]=
+ (patterns[item.signal]||0)+1;
 
-  observe();
+ $("count").textContent=count;
+ $("heart").textContent=item.heart;
+ $("motion").textContent=item.motion;
 
-  timer = setInterval(observe, 2000);
+ $("latest").textContent=
+ "Antes: "+item.before+
+ " | Comportamento: "+item.behavior+
+ " | Depois: "+item.after;
+
+ const entry=document.createElement("div");
+ entry.className="event";
+ entry.textContent=
+ count+". "+item.context+
+ " — "+item.behavior;
+
+ $("history").prepend(entry);
+
+ while($("history").children.length>20){
+ $("history").lastChild.remove();
+ }
+
+ updatePatterns();
+ save();
+}
+
+function updatePatterns(){
+ $("patterns").innerHTML="";
+ $("communication").innerHTML="";
+
+ let found=false;
+
+ events.forEach(item=>{
+ const n=patterns[item.signal]||0;
+
+ if(n>=2){
+ found=true;
+
+ const p=document.createElement("p");
+ p.textContent=
+ "Padrão "+item.signal+
+ ": "+n+" ocorrências em contexto de "+
+ item.context+".";
+ $("patterns").appendChild(p);
+
+ const h=document.createElement("p");
+ h.textContent=
+ "Hipótese a investigar: "+
+ item.hypothesis+".";
+ $("communication").appendChild(h);
+ }
+ });
+
+ if(!found){
+ $("patterns").textContent=
+ "Ainda não existem repetições suficientes.";
+ $("communication").textContent=
+ "A aguardar mais observações.";
+ }
+}
+
+function pause(){
+ clearInterval(timer);
+ timer=null;
+ $("status").textContent="Em pausa";
+}
+
+$("start").onclick=()=>{
+ if(timer!==null)return;
+ $("status").textContent="A observar";
+ observe();
+ timer=setInterval(observe,2000);
 };
 
-document.getElementById("pause").onclick = function() {
-  clearInterval(timer);
-  timer = null;
+$("pause").onclick=pause;
 
-  statusElement.textContent = "Em pausa";
+$("reset").onclick=()=>{
+ pause();
+ count=0;
+ patterns={};
+
+ $("count").textContent="0";
+ $("heart").textContent="--";
+ $("motion").textContent="--";
+ $("latest").textContent="A aguardar observações...";
+ $("history").innerHTML="";
+ updatePatterns();
+ save();
 };
 
-document.getElementById("reset").onclick = function() {
-  clearInterval(timer);
-  timer = null;
-
-  count = 0;
-  patterns = {};
-
-  statusElement.textContent = "Em pausa";
-  counterElement.textContent = "0";
-
-  observationElement.textContent =
-    "Ainda não existem observações.";
-
-  patternsElement.textContent =
-    "A aguardar dados...";
-
-  communicationElement.textContent =
-    "Ainda não existem hipóteses.";
-
-  historyElement.innerHTML = "";
-};
+load();
 </script>
-
 </body>
 </html>
