@@ -1,522 +1,405 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BRIDGE 0.4</title>
-
+<title>BRIDGE 0.5</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- background:#eef6f8;
- color:#173b47;
- font:16px Arial,sans-serif;
- padding:16px
-}
-header{text-align:center;padding:18px}
+body{font-family:Arial,sans-serif;background:#eef6f8;color:#173b47;margin:0;padding:16px}
+header{text-align:center;padding:20px}
 h1{font-size:44px;color:#087e91;margin:0}
-.card{
- background:white;
- border-radius:15px;
- padding:17px;
- margin:14px 0;
- box-shadow:0 2px 8px #0001
-}
-button{
- border:0;
- background:#087e91;
- color:white;
- border-radius:9px;
- padding:12px;
- margin:4px;
- font-size:15px
-}
+.card{background:white;border-radius:15px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0001}
+button{background:#087e91;color:white;border:0;border-radius:9px;padding:12px;margin:4px;font-size:14px}
 button.secondary{background:#657d87}
-.muted,small{color:#627c85}
-.item{
- padding:12px 0;
- border-bottom:1px solid #e2edef
-}
-.note{
- background:#fff3da;
- padding:12px;
- border-radius:10px
-}
-.bar{
- height:9px;
- border-radius:9px;
- background:#e0e9ed;
- overflow:hidden;
- margin:8px 0
-}
-.fill{
- height:100%;
- background:#087e91
-}
-h2{font-size:19px}
-#history{max-height:360px;overflow:auto}
+small{color:#627c85}
+.bar{height:14px;background:#e0e9ed;border-radius:10px;overflow:hidden;margin:10px 0}
+.fill{height:100%;background:#087e91;width:0%}
+.item{padding:10px 0;border-bottom:1px solid #e2edef}
+.note{background:#fff3da;padding:12px;border-radius:10px}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>BRIDGE</h1>
 <p>Every behavior may hold a connection.</p>
-<small>Versão 0.4 — Sequências e associações</small>
+<small>Versão 0.5 — Observação sonora</small>
 </header>
 
 <section class="card">
-<h2>Perfil individual fictício</h2>
+<h2>Perfil experimental</h2>
 <p>Criança A — demonstração</p>
-<p class="muted">
-A simulação gera episódios com acontecimentos
-antes, durante e depois.
-
-A análise procura relações estatísticas
-sem atribuir emoções ou intenções.
-</p>
+<small>As observações simuladas e reais são mantidas separadas.</small>
 </section>
 
 <section class="card">
-<h2>Observação</h2>
+<h2>Observação sonora real</h2>
+<p>Estado: <strong id="micStatus">Desativado</strong></p>
+<button id="startMic">Ativar microfone</button>
+<button id="stopMic" class="secondary">Desativar microfone</button>
 
-<p>
-Estado: <strong id="status">Em pausa</strong>
-</p>
+<p>Intensidade sonora relativa:</p>
+<div class="bar"><div class="fill" id="level"></div></div>
+<p><strong id="levelText">0%</strong></p>
 
-<p>
-Episódios: <strong id="count">0</strong>
-</p>
-
-<button id="start">Iniciar</button>
-<button id="pause" class="secondary">Pausar</button>
-<button id="reset" class="secondary">Reiniciar</button>
+<p>Sons detetados: <strong id="soundCount">0</strong></p>
+<p>Último som: <span id="lastSound">Nenhum</span></p>
+<small>Não são guardadas gravações de áudio.</small>
 </section>
 
 <section class="card">
-<h2>Último episódio</h2>
-<div id="latest">
-À espera de observações.
-</div>
+<h2>Padrões sonoros</h2>
+<div id="soundPatterns">Ainda não existem dados suficientes.</div>
 </section>
 
 <section class="card">
-<h2>Associações entre sequências</h2>
-
-<p class="muted">
-Comparação da frequência de um acontecimento
-posterior quando um comportamento ocorre,
-face a quando não ocorre, no mesmo contexto.
-</p>
-
-<div id="patterns">
-Ainda não existem dados suficientes.
-</div>
+<h2>Histórico sonoro</h2>
+<div id="soundHistory">Sem observações.</div>
+<button id="clearSounds" class="secondary">Apagar histórico sonoro</button>
 </section>
 
 <section class="card">
-<h2>Evolução e limites</h2>
-<div id="learning">
-À espera de observações.
-</div>
+<h2>Simulação de sequências — BRIDGE 0.4</h2>
+<p>Estado: <strong id="simStatus">Em pausa</strong></p>
+<button id="startSim">Iniciar simulação</button>
+<button id="pauseSim" class="secondary">Pausar</button>
+<button id="resetSim" class="secondary">Reiniciar</button>
+<p>Episódios: <strong id="simCount">0</strong></p>
+<div id="simLatest">À espera de observações.</div>
 </section>
 
 <section class="card">
-<h2>Histórico recente</h2>
-<div id="history">
-Sem episódios.
-</div>
+<h2>Associações simuladas</h2>
+<div id="simPatterns">Ainda não existem dados suficientes.</div>
 </section>
 
 <section class="card note">
-<strong>Aviso:</strong>
-
-Todos os dados são fictícios.
-
-As percentagens mostram frequências
-na simulação, não a probabilidade
-de uma intenção comunicativa.
-
-Uma associação não prova causalidade
-nem permite tomar decisões clínicas.
+<strong>Importante:</strong>
+A deteção sonora não identifica quem produziu o som,
+não reconhece palavras nem determina intenções comunicativas.
+Os dados do microfone são processados localmente.
+Esta aplicação é experimental.
 </section>
 
 <script>
-'use strict';
+"use strict";
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-const before = [
+/* MICROFONE */
+
+let stream=null;
+let audioContext=null;
+let analyser=null;
+let source=null;
+let raf=null;
+let active=false;
+let soundStart=null;
+let soundEvents=[];
+
+const SOUND_KEY="bridge05_sounds";
+
+function saveSounds(){
+ try{
+  localStorage.setItem(SOUND_KEY,JSON.stringify(soundEvents));
+ }catch(e){}
+}
+
+function renderSounds(){
+ $("soundCount").textContent=soundEvents.length;
+ $("soundHistory").innerHTML="";
+
+ if(!soundEvents.length){
+  $("soundHistory").textContent="Sem observações.";
+  $("soundPatterns").textContent="Ainda não existem dados suficientes.";
+  $("lastSound").textContent="Nenhum";
+  return;
+ }
+
+ const last=soundEvents[soundEvents.length-1];
+ $("lastSound").textContent=last.duration+" ms";
+
+ soundEvents.slice(-12).reverse().forEach(e=>{
+  const div=document.createElement("div");
+  div.className="item";
+  div.textContent=e.time+" — "+e.duration+" ms";
+  $("soundHistory").append(div);
+ });
+
+ const short=soundEvents.filter(e=>e.duration<400).length;
+ const medium=soundEvents.filter(e=>e.duration>=400&&e.duration<1000).length;
+ const long=soundEvents.filter(e=>e.duration>=1000).length;
+
+ $("soundPatterns").textContent=
+  "Curtos: "+short+
+  " | Médios: "+medium+
+  " | Longos: "+long+
+  ". Estas categorias descrevem durações, não significados.";
+}
+
+function finishSound(){
+ if(soundStart===null)return;
+ const duration=Math.round(performance.now()-soundStart);
+ soundStart=null;
+
+ if(duration<120)return;
+
+ soundEvents.push({
+  time:new Date().toLocaleTimeString("pt-PT"),
+  duration
+ });
+
+ if(soundEvents.length>500)soundEvents.shift();
+
+ saveSounds();
+ renderSounds();
+}
+
+async function startMic(){
+ if(active)return;
+
+ if(!navigator.mediaDevices?.getUserMedia){
+  $("micStatus").textContent="Microfone indisponível neste navegador.";
+  return;
+ }
+
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  audioContext=new (window.AudioContext||window.webkitAudioContext)();
+  source=audioContext.createMediaStreamSource(stream);
+  analyser=audioContext.createAnalyser();
+  analyser.fftSize=2048;
+  source.connect(analyser);
+  await audioContext.resume();
+
+  active=true;
+  $("micStatus").textContent="A observar";
+
+  const data=new Uint8Array(analyser.fftSize);
+
+  function tick(){
+   if(!active)return;
+
+   analyser.getByteTimeDomainData(data);
+
+   let sum=0;
+   for(let i=0;i<data.length;i++){
+    const v=(data[i]-128)/128;
+    sum+=v*v;
+   }
+
+   const rms=Math.sqrt(sum/data.length);
+   const level=Math.min(100,Math.round(rms*500));
+
+   $("level").style.width=level+"%";
+   $("levelText").textContent=level+"%";
+
+   // Limiar experimental, não calibrado.
+   const detected=rms>0.035;
+
+   if(detected && soundStart===null){
+    soundStart=performance.now();
+   }
+
+   if(!detected && soundStart!==null){
+    finishSound();
+   }
+
+   raf=requestAnimationFrame(tick);
+  }
+
+  tick();
+
+ }catch(e){
+  $("micStatus").textContent="Não foi possível ativar o microfone.";
+  stopMic();
+ }
+}
+
+function stopMic(){
+ active=false;
+ if(raf!==null)cancelAnimationFrame(raf);
+ raf=null;
+ finishSound();
+
+ if(stream)stream.getTracks().forEach(t=>t.stop());
+ stream=null;
+
+ if(source)source.disconnect();
+ source=null;
+
+ if(audioContext)audioContext.close().catch(()=>{});
+ audioContext=null;
+ analyser=null;
+
+ $("level").style.width="0%";
+ $("levelText").textContent="0%";
+ $("micStatus").textContent="Desativado";
+}
+
+$("startMic").onclick=startMic;
+$("stopMic").onclick=stopMic;
+
+$("clearSounds").onclick=()=>{
+ if(!confirm("Apagar o histórico sonoro?"))return;
+ soundEvents=[];
+ saveSounds();
+ renderSounds();
+};
+
+/* SIMULAÇÃO 0.4 */
+
+const before=[
  "Atividade interrompida",
  "Refeição iniciada",
  "Adulto aproxima-se",
  "Atividade livre"
 ];
 
-const during = [
+const during=[
  "Estende a mão",
  "Afasta objeto",
  "Vocalização breve",
  "Movimentos repetitivos"
 ];
 
-const after = [
+const after=[
  "Atividade retomada",
  "Objeto afastado",
  "Adulto responde",
  "Sem mudança observável"
 ];
 
-const KEY = "bridge04_demo";
+const SIM_KEY="bridge04_demo";
+let records=[];
+let simTimer=null;
 
-let records = [];
-let timer = null;
-
-const pick = n => Math.floor(Math.random()*n);
+const pick=n=>Math.floor(Math.random()*n);
 
 function episode(){
+ const c=pick(4);
+ let b=pick(4);
+ let a=pick(4);
 
- const c = pick(4);
+ if(c===0&&Math.random()<0.7)b=0;
+ if(c===1&&Math.random()<0.7)b=1;
+ if(c===2&&Math.random()<0.65)b=2;
 
- let b = pick(4);
- let a = pick(4);
+ if(c===0&&b===0&&Math.random()<0.8)a=0;
+ if(c===1&&b===1&&Math.random()<0.8)a=1;
+ if(c===2&&b===2&&Math.random()<0.75)a=2;
 
- // Tendências fictícias com exceções.
-
- if(c===0 && Math.random()<0.7)
-  b=0;
-
- if(c===1 && Math.random()<0.7)
-  b=1;
-
- if(c===2 && Math.random()<0.65)
-  b=2;
-
- if(c===0 && b===0 && Math.random()<0.8)
-  a=0;
-
- if(c===1 && b===1 && Math.random()<0.8)
-  a=1;
-
- if(c===2 && b===2 && Math.random()<0.75)
-  a=2;
-
- const hr = 78+pick(49);
-
- const movement = [
-  "Baixo",
-  "Moderado",
-  "Elevado"
- ][pick(3)];
-
- return {c,b,a,hr,movement};
+ return{c,b,a,hr:78+pick(49),movement:["Baixo","Moderado","Elevado"][pick(3)]};
 }
 
-function observe(){
+function saveSim(){
+ try{localStorage.setItem(SIM_KEY,JSON.stringify(records));}catch(e){}
+}
 
+function observeSim(){
  records.push(episode());
-
- if(records.length>2000)
-  records.shift();
-
- render();
- save();
+ if(records.length>2000)records.shift();
+ renderSim();
+ saveSim();
 }
 
-function associationStats(c,b,a){
+function renderSim(){
+ $("simCount").textContent=records.length;
+ const r=records[records.length-1];
 
- const same = records.filter(
-  r=>r.c===c
- );
-
- const yes = same.filter(
-  r=>r.b===b
- );
-
- const no = same.filter(
-  r=>r.b!==b
- );
-
- if(yes.length<6 || no.length<6)
-  return null;
-
- const yesHits = yes.filter(
-  r=>r.a===a
- ).length;
-
- const noHits = no.filter(
-  r=>r.a===a
- ).length;
-
- const p = yesHits/yes.length;
- const q = noHits/no.length;
-
- const d = p-q;
-
- if(yesHits<4 || d<0.20)
-  return null;
-
- return {
-  c,b,a,
-  yes:yes.length,
-  no:no.length,
-  yesHits,
-  noHits,
-  p,q,d
- };
-}
-
-function analyse(){
+ $("simLatest").textContent=r?
+  "Antes: "+before[r.c]+" | Durante: "+during[r.b]+
+  " | Depois: "+after[r.a]:
+  "À espera de observações.";
 
  const found=[];
 
  for(let c=0;c<4;c++){
+  const same=records.filter(r=>r.c===c);
 
   for(let b=0;b<4;b++){
+   const yes=same.filter(r=>r.b===b);
+   const no=same.filter(r=>r.b!==b);
+   if(yes.length<6||no.length<6)continue;
 
    for(let a=0;a<4;a++){
+    const yh=yes.filter(r=>r.a===a).length;
+    const nh=no.filter(r=>r.a===a).length;
+    const p=yh/yes.length;
+    const q=nh/no.length;
 
-    const s=associationStats(c,b,a);
-
-    if(s)
-     found.push(s);
+    if(yh>=4&&p-q>=0.2){
+     found.push({c,b,a,p,q,d:p-q});
+    }
    }
   }
  }
 
  found.sort((x,y)=>y.d-x.d);
+ $("simPatterns").innerHTML="";
 
- return found;
-}
-
-function render(){
-
- $('count').textContent=records.length;
-
- const r=records[records.length-1];
-
- if(r){
-
-  $('latest').innerHTML="";
-
-  const information=[
-   ["Antes",before[r.c]],
-   ["Durante",during[r.b]],
-   ["Depois",after[r.a]],
-   [
-    "Sinais simulados",
-    r.hr+" bpm — movimento "+
-    r.movement.toLowerCase()
-   ]
-  ];
-
-  information.forEach(([label,value])=>{
-
-   const p=document.createElement("p");
-
-   const strong=document.createElement("strong");
-
-   strong.textContent=label+": ";
-
-   p.append(
-    strong,
-    document.createTextNode(value)
-   );
-
-   $('latest').append(p);
-  });
-
- }else{
-
-  $('latest').textContent=
-   "À espera de observações.";
- }
-
- const found=analyse();
-
- $('patterns').innerHTML="";
-
- if(found.length===0){
-
-  $('patterns').textContent=
-   "Ainda não há comparações suficientes. "+
-   "Deixa a simulação decorrer cerca de "+
-   "2 minutos.";
+ if(!found.length){
+  $("simPatterns").textContent="A recolher dados.";
  }
 
  found.slice(0,6).forEach(s=>{
-
   const div=document.createElement("div");
-
   div.className="item";
-
-  const title=document.createElement("strong");
-
-  title.textContent=
-   before[s.c]+" → "+
-   during[s.b]+" → "+
-   after[s.a];
-
-  div.append(title);
-
-  const p=document.createElement("p");
-
-  p.textContent=
-   "Com o comportamento: "+
-   s.yesHits+"/"+s.yes+
-   " ("+Math.round(s.p*100)+"%). "+
-   "Sem esse comportamento: "+
-   s.noHits+"/"+s.no+
-   " ("+Math.round(s.q*100)+"%).";
-
-  div.append(p);
-
-  const small=document.createElement("small");
-
-  small.textContent=
-   "Diferença observada: "+
-   Math.round(s.d*100)+
-   " pontos percentuais. "+
-   "Associação a investigar, "+
-   "não uma interpretação.";
-
-  div.append(small);
-
-  const bar=document.createElement("div");
-
-  bar.className="bar";
-
-  const fill=document.createElement("div");
-
-  fill.className="fill";
-
-  fill.style.width=
-   Math.round(s.p*100)+"%";
-
-  bar.append(fill);
-
-  div.append(bar);
-
-  $('patterns').append(div);
- });
-
- $('learning').textContent=
-  "Episódios analisados: "+
-  records.length+
-  ". Associações que cumprem "+
-  "os critérios atuais: "+
-  found.length+
-  ". Os resultados podem surgir, "+
-  "mudar ou desaparecer à medida "+
-  "que entram novos episódios. "+
-  "O sistema não confirma "+
-  "intenções comunicativas.";
-
- $('history').innerHTML="";
-
- if(!r){
-
-  $('history').textContent="Sem episódios.";
-  return;
- }
-
- records.slice(-12).reverse().forEach((x,i)=>{
-
-  const div=document.createElement("div");
-
-  div.className="item";
-
   div.textContent=
-   "#"+(records.length-i)+
-   " — "+before[x.c]+
-   " | "+during[x.b]+
-   " | "+after[x.a];
-
-  $('history').append(div);
+   before[s.c]+" → "+during[s.b]+" → "+after[s.a]+
+   " | Com comportamento: "+Math.round(s.p*100)+"%"+
+   " | Sem comportamento: "+Math.round(s.q*100)+"%.";
+  $("simPatterns").append(div);
  });
 }
 
-function save(){
-
- try{
-
-  localStorage.setItem(
-   KEY,
-   JSON.stringify(records)
-  );
-
- }catch(e){}
+function pauseSim(){
+ clearInterval(simTimer);
+ simTimer=null;
+ $("simStatus").textContent="Em pausa";
 }
 
-function pause(){
-
- if(timer!==null){
-
-  clearInterval(timer);
-  timer=null;
- }
-
- $('status').textContent="Em pausa";
-}
-
-$('start').onclick=()=>{
-
- if(timer!==null)
-  return;
-
- $('status').textContent="A observar";
-
- observe();
-
- timer=setInterval(observe,1200);
+$("startSim").onclick=()=>{
+ if(simTimer!==null)return;
+ $("simStatus").textContent="A observar";
+ observeSim();
+ simTimer=setInterval(observeSim,1200);
 };
 
-$('pause').onclick=pause;
+$("pauseSim").onclick=pauseSim;
 
-$('reset').onclick=()=>{
-
- pause();
-
- if(!confirm(
-  "Apagar os dados fictícios desta simulação?"
- ))
-  return;
-
+$("resetSim").onclick=()=>{
+ pauseSim();
+ if(!confirm("Apagar a simulação?"))return;
  records=[];
-
- try{
-  localStorage.removeItem(KEY);
- }catch(e){}
-
- render();
+ saveSim();
+ renderSim();
 };
 
 try{
-
- const old=JSON.parse(
-  localStorage.getItem(KEY)
- );
-
+ const old=JSON.parse(localStorage.getItem(SIM_KEY));
  if(Array.isArray(old)){
-
-  records=old.filter(r=>
-   r &&
-   [r.c,r.b,r.a].every(x=>
-    Number.isInteger(x) &&
-    x>=0 &&
-    x<4
-   ) &&
-   Number.isFinite(r.hr) &&
-   typeof r.movement==="string"
+  records=old.filter(r=>r&&
+   [r.c,r.b,r.a].every(x=>Number.isInteger(x)&&x>=0&&x<4)
   ).slice(-2000);
  }
-
 }catch(e){}
 
-render();
+try{
+ const saved=JSON.parse(localStorage.getItem(SOUND_KEY));
+ if(Array.isArray(saved)){
+  soundEvents=saved.filter(e=>
+   e&&typeof e.time==="string"&&
+   Number.isFinite(e.duration)&&e.duration>=0
+  ).slice(-500);
+ }
+}catch(e){}
 
+window.addEventListener("pagehide",stopMic);
+
+renderSim();
+renderSounds();
 </script>
 </body>
 </html>
