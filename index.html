@@ -3,20 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BRIDGE 0.5</title>
+<title>BRIDGE 0.6</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#eef6f8;color:#173b47;margin:0;padding:16px}
+body{
+ margin:0;
+ padding:16px;
+ background:#eef6f8;
+ color:#173b47;
+ font-family:Arial,sans-serif;
+}
 header{text-align:center;padding:20px}
 h1{font-size:44px;color:#087e91;margin:0}
-.card{background:white;border-radius:15px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0001}
-button{background:#087e91;color:white;border:0;border-radius:9px;padding:12px;margin:4px;font-size:14px}
-button.secondary{background:#657d87}
+.card{
+ background:white;
+ padding:18px;
+ margin:14px 0;
+ border-radius:15px;
+ box-shadow:0 2px 8px #0001;
+}
+button{
+ background:#087e91;
+ color:white;
+ border:0;
+ border-radius:9px;
+ padding:12px;
+ margin:4px;
+ font-size:14px;
+}
+.secondary{background:#657d87}
 small{color:#627c85}
-.bar{height:14px;background:#e0e9ed;border-radius:10px;overflow:hidden;margin:10px 0}
-.fill{height:100%;background:#087e91;width:0%}
-.item{padding:10px 0;border-bottom:1px solid #e2edef}
-.note{background:#fff3da;padding:12px;border-radius:10px}
+.bar{
+ height:14px;
+ background:#e0e9ed;
+ border-radius:10px;
+ overflow:hidden;
+ margin:10px 0;
+}
+.fill{
+ height:100%;
+ background:#087e91;
+ width:0%;
+}
+.item{
+ padding:10px 0;
+ border-bottom:1px solid #e2edef;
+}
+.note{
+ background:#fff3da;
+ padding:12px;
+ border-radius:10px;
+}
+h2{font-size:19px}
 </style>
 </head>
 <body>
@@ -24,62 +62,126 @@ small{color:#627c85}
 <header>
 <h1>BRIDGE</h1>
 <p>Every behavior may hold a connection.</p>
-<small>Versão 0.5 — Observação sonora</small>
+<small>Versão 0.6 — Aprendizagem acústica</small>
 </header>
 
 <section class="card">
 <h2>Perfil experimental</h2>
-<p>Criança A — demonstração</p>
-<small>As observações simuladas e reais são mantidas separadas.</small>
+<p>Perfil A — Observação sonora</p>
+<small>
+O perfil reúne características dos sons captados
+pelo microfone. Não identifica quem os produziu.
+</small>
 </section>
 
 <section class="card">
-<h2>Observação sonora real</h2>
-<p>Estado: <strong id="micStatus">Desativado</strong></p>
-<button id="startMic">Ativar microfone</button>
-<button id="stopMic" class="secondary">Desativar microfone</button>
+<h2>Observação real</h2>
+
+<p>Microfone:
+<strong id="status">Desativado</strong></p>
+
+<button id="start">Ativar microfone</button>
+<button id="stop" class="secondary">
+Desativar microfone
+</button>
 
 <p>Intensidade sonora relativa:</p>
-<div class="bar"><div class="fill" id="level"></div></div>
-<p><strong id="levelText">0%</strong></p>
 
-<p>Sons detetados: <strong id="soundCount">0</strong></p>
-<p>Último som: <span id="lastSound">Nenhum</span></p>
-<small>Não são guardadas gravações de áudio.</small>
+<div class="bar">
+<div class="fill" id="level"></div>
+</div>
+
+<p id="levelText">0%</p>
+
+<p>Sons detetados:
+<strong id="count">0</strong></p>
+
+<p>Último som:
+<span id="latest">Nenhum</span></p>
 </section>
 
 <section class="card">
-<h2>Padrões sonoros</h2>
-<div id="soundPatterns">Ainda não existem dados suficientes.</div>
+<h2>Perfil acústico</h2>
+
+<div id="profile">
+Ainda não existem observações.
+</div>
+
+</section>
+
+<section class="card">
+<h2>Padrões descobertos</h2>
+
+<p>
+<small>
+Os sons são agrupados automaticamente
+segundo a duração e a intensidade relativa.
+</small>
+</p>
+
+<div id="patterns">
+À espera de observações.
+</div>
+
+</section>
+
+<section class="card">
+<h2>Sequências sonoras</h2>
+
+<div id="sequences">
+Ainda não existem sequências.
+</div>
+
 </section>
 
 <section class="card">
 <h2>Histórico sonoro</h2>
-<div id="soundHistory">Sem observações.</div>
-<button id="clearSounds" class="secondary">Apagar histórico sonoro</button>
+
+<div id="history">Sem observações.</div>
+
+<button id="clear" class="secondary">
+Apagar aprendizagem sonora
+</button>
+
 </section>
 
 <section class="card">
-<h2>Simulação de sequências — BRIDGE 0.4</h2>
-<p>Estado: <strong id="simStatus">Em pausa</strong></p>
+<h2>Simulação de sequências</h2>
+
+<p>Estado:
+<strong id="simStatus">Em pausa</strong></p>
+
 <button id="startSim">Iniciar simulação</button>
 <button id="pauseSim" class="secondary">Pausar</button>
 <button id="resetSim" class="secondary">Reiniciar</button>
-<p>Episódios: <strong id="simCount">0</strong></p>
-<div id="simLatest">À espera de observações.</div>
-</section>
 
-<section class="card">
-<h2>Associações simuladas</h2>
-<div id="simPatterns">Ainda não existem dados suficientes.</div>
+<p>Episódios:
+<strong id="simCount">0</strong></p>
+
+<div id="simLatest">
+À espera de observações.
+</div>
+
+<h3>Associações simuladas</h3>
+<div id="simPatterns">
+Ainda não existem dados suficientes.
+</div>
 </section>
 
 <section class="card note">
 <strong>Importante:</strong>
-A deteção sonora não identifica quem produziu o som,
-não reconhece palavras nem determina intenções comunicativas.
-Os dados do microfone são processados localmente.
-Esta aplicação é experimental.
+Esta versão é experimental.
+
+A BRIDGE analisa características acústicas,
+mas não identifica pessoas, palavras,
+emoções ou intenções comunicativas.
+
+Os padrões encontrados não demonstram
+que exista uma tentativa de comunicação.
+
+Não são guardadas gravações de áudio.
+Os dados derivados são armazenados
+localmente no navegador.
 </section>
 
 <script>
@@ -87,168 +189,413 @@ Esta aplicação é experimental.
 
 const $=id=>document.getElementById(id);
 
-/* MICROFONE */
+const KEY="bridge06_sounds";
+const SIM_KEY="bridge04_demo";
 
+let sounds=[];
 let stream=null;
-let audioContext=null;
+let context=null;
 let analyser=null;
 let source=null;
-let raf=null;
+let frame=null;
 let active=false;
+
 let soundStart=null;
-let soundEvents=[];
+let soundPeak=0;
+let soundSum=0;
+let soundSamples=0;
+let lastAbove=0;
 
-const SOUND_KEY="bridge05_sounds";
+const THRESHOLD=0.035;
+const SILENCE_MS=180;
 
-function saveSounds(){
+function save(){
  try{
-  localStorage.setItem(SOUND_KEY,JSON.stringify(soundEvents));
+  localStorage.setItem(
+   KEY,
+   JSON.stringify(sounds)
+  );
  }catch(e){}
 }
 
-function renderSounds(){
- $("soundCount").textContent=soundEvents.length;
- $("soundHistory").innerHTML="";
+function finishSound(now){
 
- if(!soundEvents.length){
-  $("soundHistory").textContent="Sem observações.";
-  $("soundPatterns").textContent="Ainda não existem dados suficientes.";
-  $("lastSound").textContent="Nenhum";
-  return;
+ if(soundStart===null)return;
+
+ const duration=Math.round(
+  lastAbove-soundStart
+ );
+
+ if(duration>=120){
+
+  const intensity=
+   soundSamples?
+   soundSum/soundSamples:0;
+
+  sounds.push({
+   time:Date.now(),
+   duration,
+   intensity:Number(intensity.toFixed(4)),
+   peak:Number(soundPeak.toFixed(4))
+  });
+
+  if(sounds.length>500)
+   sounds.shift();
+
+  save();
+  renderSounds();
  }
 
- const last=soundEvents[soundEvents.length-1];
- $("lastSound").textContent=last.duration+" ms";
-
- soundEvents.slice(-12).reverse().forEach(e=>{
-  const div=document.createElement("div");
-  div.className="item";
-  div.textContent=e.time+" — "+e.duration+" ms";
-  $("soundHistory").append(div);
- });
-
- const short=soundEvents.filter(e=>e.duration<400).length;
- const medium=soundEvents.filter(e=>e.duration>=400&&e.duration<1000).length;
- const long=soundEvents.filter(e=>e.duration>=1000).length;
-
- $("soundPatterns").textContent=
-  "Curtos: "+short+
-  " | Médios: "+medium+
-  " | Longos: "+long+
-  ". Estas categorias descrevem durações, não significados.";
-}
-
-function finishSound(){
- if(soundStart===null)return;
- const duration=Math.round(performance.now()-soundStart);
  soundStart=null;
-
- if(duration<120)return;
-
- soundEvents.push({
-  time:new Date().toLocaleTimeString("pt-PT"),
-  duration
- });
-
- if(soundEvents.length>500)soundEvents.shift();
-
- saveSounds();
- renderSounds();
+ soundPeak=0;
+ soundSum=0;
+ soundSamples=0;
 }
 
 async function startMic(){
+
  if(active)return;
 
  if(!navigator.mediaDevices?.getUserMedia){
-  $("micStatus").textContent="Microfone indisponível neste navegador.";
+  $("status").textContent=
+   "Microfone indisponível.";
   return;
  }
 
  try{
-  stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  source=audioContext.createMediaStreamSource(stream);
-  analyser=audioContext.createAnalyser();
+
+  stream=await navigator.mediaDevices
+   .getUserMedia({audio:true});
+
+  context=new (
+   window.AudioContext||
+   window.webkitAudioContext
+  )();
+
+  source=context
+   .createMediaStreamSource(stream);
+
+  analyser=context.createAnalyser();
   analyser.fftSize=2048;
+
   source.connect(analyser);
-  await audioContext.resume();
+
+  await context.resume();
 
   active=true;
-  $("micStatus").textContent="A observar";
+  $("status").textContent="A observar";
 
-  const data=new Uint8Array(analyser.fftSize);
+  const data=new Uint8Array(
+   analyser.fftSize
+  );
 
   function tick(){
+
    if(!active)return;
 
    analyser.getByteTimeDomainData(data);
 
    let sum=0;
+
    for(let i=0;i<data.length;i++){
+
     const v=(data[i]-128)/128;
     sum+=v*v;
    }
 
-   const rms=Math.sqrt(sum/data.length);
-   const level=Math.min(100,Math.round(rms*500));
+   const rms=Math.sqrt(
+    sum/data.length
+   );
+
+   const level=Math.min(
+    100,
+    Math.round(rms*500)
+   );
 
    $("level").style.width=level+"%";
    $("levelText").textContent=level+"%";
 
-   // Limiar experimental, não calibrado.
-   const detected=rms>0.035;
+   const now=performance.now();
 
-   if(detected && soundStart===null){
-    soundStart=performance.now();
+   if(rms>THRESHOLD){
+
+    if(soundStart===null){
+     soundStart=now;
+     soundPeak=0;
+     soundSum=0;
+     soundSamples=0;
+    }
+
+    lastAbove=now;
+
+    soundPeak=Math.max(
+     soundPeak,rms
+    );
+
+    soundSum+=rms;
+    soundSamples++;
+
+   }else if(
+    soundStart!==null &&
+    now-lastAbove>SILENCE_MS
+   ){
+    finishSound(now);
    }
 
-   if(!detected && soundStart!==null){
-    finishSound();
-   }
-
-   raf=requestAnimationFrame(tick);
+   frame=requestAnimationFrame(tick);
   }
 
   tick();
 
  }catch(e){
-  $("micStatus").textContent="Não foi possível ativar o microfone.";
+
   stopMic();
+
+  $("status").textContent=
+   "Não foi possível ativar o microfone.";
  }
 }
 
 function stopMic(){
- active=false;
- if(raf!==null)cancelAnimationFrame(raf);
- raf=null;
- finishSound();
 
- if(stream)stream.getTracks().forEach(t=>t.stop());
+ active=false;
+
+ if(frame!==null)
+  cancelAnimationFrame(frame);
+
+ frame=null;
+
+ if(soundStart!==null)
+  finishSound(performance.now());
+
+ if(stream)
+  stream.getTracks().forEach(
+   t=>t.stop()
+  );
+
  stream=null;
 
  if(source)source.disconnect();
  source=null;
 
- if(audioContext)audioContext.close().catch(()=>{});
- audioContext=null;
+ if(context)
+  context.close().catch(()=>{});
+
+ context=null;
  analyser=null;
 
  $("level").style.width="0%";
  $("levelText").textContent="0%";
- $("micStatus").textContent="Desativado";
+
+ $("status").textContent="Desativado";
 }
 
-$("startMic").onclick=startMic;
-$("stopMic").onclick=stopMic;
+function distance(a,b){
 
-$("clearSounds").onclick=()=>{
- if(!confirm("Apagar o histórico sonoro?"))return;
- soundEvents=[];
- saveSounds();
+ const durationDifference=
+  Math.abs(
+   Math.log(
+    (a.duration+1)/(b.duration+1)
+   )
+  );
+
+ const intensityDifference=
+  Math.abs(
+   a.intensity-b.intensity
+  )*12;
+
+ return durationDifference+
+  intensityDifference;
+}
+
+function discoverGroups(){
+
+ const groups=[];
+
+ sounds.forEach(s=>{
+
+  let best=null;
+  let bestDistance=Infinity;
+
+  groups.forEach(g=>{
+
+   const d=distance(s,g.center);
+
+   if(d<bestDistance){
+    bestDistance=d;
+    best=g;
+   }
+  });
+
+  if(best && bestDistance<0.55){
+
+   best.items.push(s);
+
+   const n=best.items.length;
+
+   best.center.duration=
+    best.center.duration+
+    (s.duration-best.center.duration)/n;
+
+   best.center.intensity=
+    best.center.intensity+
+    (s.intensity-best.center.intensity)/n;
+
+  }else{
+
+   groups.push({
+    center:{
+     duration:s.duration,
+     intensity:s.intensity
+    },
+    items:[s]
+   });
+  }
+ });
+
+ return groups;
+}
+
+function renderSounds(){
+
+ $("count").textContent=sounds.length;
+
+ $("history").innerHTML="";
+ $("patterns").innerHTML="";
+
+ if(!sounds.length){
+
+  $("latest").textContent="Nenhum";
+
+  $("profile").textContent=
+   "Ainda não existem observações.";
+
+  $("patterns").textContent=
+   "À espera de observações.";
+
+  $("sequences").textContent=
+   "Ainda não existem sequências.";
+
+  $("history").textContent=
+   "Sem observações.";
+
+  return;
+ }
+
+ const last=sounds[sounds.length-1];
+
+ $("latest").textContent=
+  last.duration+" ms";
+
+ const averageDuration=
+  sounds.reduce(
+   (sum,s)=>sum+s.duration,0
+  )/sounds.length;
+
+ const averageIntensity=
+  sounds.reduce(
+   (sum,s)=>sum+s.intensity,0
+  )/sounds.length;
+
+ $("profile").textContent=
+  "Sons analisados: "+sounds.length+
+  ". Duração média: "+
+  Math.round(averageDuration)+" ms."+
+  " Intensidade média relativa: "+
+  (averageIntensity*100).toFixed(1)+"%.";
+
+ const groups=discoverGroups();
+
+ const ordered=groups
+  .slice()
+  .sort(
+   (a,b)=>b.items.length-a.items.length
+  );
+
+ ordered.slice(0,8).forEach((g,i)=>{
+
+  const div=document.createElement("div");
+  div.className="item";
+
+  div.textContent=
+   "Grupo acústico "+(i+1)+
+   ": "+g.items.length+
+   " sons semelhantes. "+
+   "Duração típica: "+
+   Math.round(g.center.duration)+
+   " ms. Intensidade relativa: "+
+   (g.center.intensity*100).toFixed(1)+
+   "%.";
+
+  $("patterns").append(div);
+ });
+
+ const sequenceGroups=[];
+
+ for(let i=1;i<sounds.length;i++){
+
+  const gap=
+   sounds[i].time-sounds[i-1].time-
+   sounds[i-1].duration;
+
+  if(gap>=0 && gap<1500){
+
+   sequenceGroups.push(gap);
+  }
+ }
+
+ if(sequenceGroups.length){
+
+  const averageGap=
+   sequenceGroups.reduce(
+    (a,b)=>a+b,0
+   )/sequenceGroups.length;
+
+  $("sequences").textContent=
+   "Foram encontrados "+
+   sequenceGroups.length+
+   " pares de sons separados por "+
+   "menos de 1,5 segundos. "+
+   "Intervalo médio aproximado: "+
+   Math.round(averageGap)+
+   " ms. Isto não demonstra "+
+   "que os sons tenham significado.";
+ }else{
+
+  $("sequences").textContent=
+   "Ainda não foram encontrados "+
+   "pares de sons próximos.";
+ }
+
+ sounds.slice(-12).reverse().forEach(s=>{
+
+  const div=document.createElement("div");
+  div.className="item";
+
+  div.textContent=
+   new Date(s.time)
+   .toLocaleTimeString("pt-PT")+
+   " — "+s.duration+" ms";
+
+  $("history").append(div);
+ });
+}
+
+$("start").onclick=startMic;
+$("stop").onclick=stopMic;
+
+$("clear").onclick=()=>{
+
+ if(!confirm(
+  "Apagar o perfil acústico experimental?"
+ ))return;
+
+ sounds=[];
+ save();
  renderSounds();
 };
 
-/* SIMULAÇÃO 0.4 */
+/* SIMULAÇÃO — VERSÃO 0.4 */
 
 const before=[
  "Atividade interrompida",
@@ -271,14 +618,15 @@ const after=[
  "Sem mudança observável"
 ];
 
-const SIM_KEY="bridge04_demo";
 let records=[];
 let simTimer=null;
 
 const pick=n=>Math.floor(Math.random()*n);
 
 function episode(){
+
  const c=pick(4);
+
  let b=pick(4);
  let a=pick(4);
 
@@ -290,116 +638,199 @@ function episode(){
  if(c===1&&b===1&&Math.random()<0.8)a=1;
  if(c===2&&b===2&&Math.random()<0.75)a=2;
 
- return{c,b,a,hr:78+pick(49),movement:["Baixo","Moderado","Elevado"][pick(3)]};
+ return{c,b,a};
 }
 
 function saveSim(){
- try{localStorage.setItem(SIM_KEY,JSON.stringify(records));}catch(e){}
+
+ try{
+  localStorage.setItem(
+   SIM_KEY,
+   JSON.stringify(records)
+  );
+ }catch(e){}
 }
 
 function observeSim(){
+
  records.push(episode());
- if(records.length>2000)records.shift();
+
+ if(records.length>2000)
+  records.shift();
+
  renderSim();
  saveSim();
 }
 
 function renderSim(){
+
  $("simCount").textContent=records.length;
+
  const r=records[records.length-1];
 
  $("simLatest").textContent=r?
-  "Antes: "+before[r.c]+" | Durante: "+during[r.b]+
+  "Antes: "+before[r.c]+
+  " | Durante: "+during[r.b]+
   " | Depois: "+after[r.a]:
   "À espera de observações.";
 
  const found=[];
 
  for(let c=0;c<4;c++){
-  const same=records.filter(r=>r.c===c);
+
+  const same=records.filter(
+   r=>r.c===c
+  );
 
   for(let b=0;b<4;b++){
-   const yes=same.filter(r=>r.b===b);
-   const no=same.filter(r=>r.b!==b);
-   if(yes.length<6||no.length<6)continue;
+
+   const yes=same.filter(
+    r=>r.b===b
+   );
+
+   const no=same.filter(
+    r=>r.b!==b
+   );
+
+   if(yes.length<6||no.length<6)
+    continue;
 
    for(let a=0;a<4;a++){
-    const yh=yes.filter(r=>r.a===a).length;
-    const nh=no.filter(r=>r.a===a).length;
+
+    const yh=yes.filter(
+     r=>r.a===a
+    ).length;
+
+    const nh=no.filter(
+     r=>r.a===a
+    ).length;
+
     const p=yh/yes.length;
     const q=nh/no.length;
 
     if(yh>=4&&p-q>=0.2){
-     found.push({c,b,a,p,q,d:p-q});
+
+     found.push({
+      c,b,a,p,q,d:p-q
+     });
     }
    }
   }
  }
 
- found.sort((x,y)=>y.d-x.d);
+ found.sort(
+  (x,y)=>y.d-x.d
+ );
+
  $("simPatterns").innerHTML="";
 
  if(!found.length){
-  $("simPatterns").textContent="A recolher dados.";
+
+  $("simPatterns").textContent=
+   "A recolher dados.";
  }
 
  found.slice(0,6).forEach(s=>{
+
   const div=document.createElement("div");
   div.className="item";
+
   div.textContent=
-   before[s.c]+" → "+during[s.b]+" → "+after[s.a]+
-   " | Com comportamento: "+Math.round(s.p*100)+"%"+
-   " | Sem comportamento: "+Math.round(s.q*100)+"%.";
+   before[s.c]+" → "+
+   during[s.b]+" → "+
+   after[s.a]+
+   " | Com comportamento: "+
+   Math.round(s.p*100)+"%"+
+   " | Sem comportamento: "+
+   Math.round(s.q*100)+"%.";
+
   $("simPatterns").append(div);
  });
 }
 
 function pauseSim(){
+
  clearInterval(simTimer);
  simTimer=null;
+
  $("simStatus").textContent="Em pausa";
 }
 
 $("startSim").onclick=()=>{
+
  if(simTimer!==null)return;
+
  $("simStatus").textContent="A observar";
+
  observeSim();
- simTimer=setInterval(observeSim,1200);
+
+ simTimer=setInterval(
+  observeSim,1200
+ );
 };
 
 $("pauseSim").onclick=pauseSim;
 
 $("resetSim").onclick=()=>{
+
  pauseSim();
- if(!confirm("Apagar a simulação?"))return;
+
+ if(!confirm(
+  "Apagar a simulação?"
+ ))return;
+
  records=[];
  saveSim();
  renderSim();
 };
 
-try{
- const old=JSON.parse(localStorage.getItem(SIM_KEY));
- if(Array.isArray(old)){
-  records=old.filter(r=>r&&
-   [r.c,r.b,r.a].every(x=>Number.isInteger(x)&&x>=0&&x<4)
-  ).slice(-2000);
- }
-}catch(e){}
+/* CARREGAR DADOS */
 
 try{
- const saved=JSON.parse(localStorage.getItem(SOUND_KEY));
+
+ const saved=JSON.parse(
+  localStorage.getItem(KEY)
+ );
+
  if(Array.isArray(saved)){
-  soundEvents=saved.filter(e=>
-   e&&typeof e.time==="string"&&
-   Number.isFinite(e.duration)&&e.duration>=0
+
+  sounds=saved.filter(s=>
+   s &&
+   Number.isFinite(s.time) &&
+   Number.isFinite(s.duration) &&
+   Number.isFinite(s.intensity) &&
+   Number.isFinite(s.peak)
   ).slice(-500);
  }
+
 }catch(e){}
 
-window.addEventListener("pagehide",stopMic);
+try{
 
-renderSim();
+ const saved=JSON.parse(
+  localStorage.getItem(SIM_KEY)
+ );
+
+ if(Array.isArray(saved)){
+
+  records=saved.filter(r=>
+   r &&
+   [r.c,r.b,r.a].every(x=>
+    Number.isInteger(x)&&
+    x>=0&&x<4
+   )
+  ).slice(-2000);
+ }
+
+}catch(e){}
+
+window.addEventListener(
+ "pagehide",stopMic
+);
+
 renderSounds();
+renderSim();
+
 </script>
 </body>
 </html>
